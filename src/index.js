@@ -11,9 +11,9 @@ application.set('port', process.env.PORT || 3000);
 application.set('views', path.join(__dirname, 'views'));
 application.engine('.hbs', exphbs({
   defaultLayout: 'main',
-  layoutDir: path.join(application.get('views'), 'layouts') ,
+  layoutsDir: path.join(application.get('views'), 'layouts'),
   partialsDir: path.join(application.get('views'), 'partials'),
-  extName: '.hbs'
+  extname: '.hbs' 
 }));
 
 application.set('view engine', '.hbs');
