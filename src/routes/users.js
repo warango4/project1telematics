@@ -1,15 +1,24 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+
+const User = require('../models/User');
 
 router.get('/users/signin', function(req, res) {
     res.render('users/signin');
 });
 
+router.post('/users/signin', passport.authenticate('local', {
+    successRedirect: '/localization',
+    failureRedirect: '/users/signin',
+    failureFlash: true
+}));
+
 router.get('/users/signup', function(req, res) {
     res.render('users/signup');
 });
 
-router.post('/users/signup', function(req, res){
+router.post('/users/signup', async function(req, res){
     const {user, email, pass, passConf} = req.body;
     const errors = [];
     if(user.length < 1) {
@@ -27,7 +36,23 @@ router.post('/users/signup', function(req, res){
     if(errors.length > 0){
         res.render('users/signup', {errors, user, email});
     } else {
-        res.send('OK');
+        const userName = await User.findOne({user: user});
+        const userMail = await User.findOne({email: email});
+
+        if(userName){
+            req.flash('failure_msm', 'Sorry, this user name is already taken');
+            res.redirect('/users/signup');
+        }         
+        if (userMail){
+            req.flash('failure_msm', 'You have already registered with this email');
+            res.redirect('/users/signup');
+        } else {
+            const newUser = new User({user, email, pass});
+            newUser.pass = await newUser.encryptPass(pass);
+            await newUser.save();
+            req.flash('success_msm', 'Congrats! You are registered now');
+            res.redirect('/users/signin'); 
+        } 
     }
 });
 module.exports = router;

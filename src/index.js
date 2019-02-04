@@ -4,9 +4,11 @@ const exphbs = require('express-handlebars');
 const override = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
 
 const application = express();
 require('./database');
+require('./config/passport');
 
 application.set('port', process.env.PORT || 3000);
 application.set('views', path.join(__dirname, 'views'));
@@ -28,11 +30,14 @@ application.use(session({
     saveUninitialized: true
 }));
 
+application.use(passport.initialize());
+application.use(passport.session());
 application.use(flash());
 
 application.use(function(req, res, next) {
     res.locals.success_msm = req.flash('success_msm');
     res.locals.failure_msm = req.flash('failure_msm');
+    res.locals.error = req.flash('error');
     next();
 });
 
