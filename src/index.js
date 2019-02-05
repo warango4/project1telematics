@@ -38,6 +38,7 @@ application.use(function(req, res, next) {
     res.locals.success_msm = req.flash('success_msm');
     res.locals.failure_msm = req.flash('failure_msm');
     res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
     next();
 });
 

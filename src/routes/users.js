@@ -55,4 +55,11 @@ router.post('/users/signup', async function(req, res){
         } 
     }
 });
+
+router.get('/users/logout',function(req, res){
+    req.logout();
+    req.flash('success_msm', 'You have successfully logged out');
+    res.redirect('/');
+});
+
 module.exports = router;
