@@ -4,8 +4,13 @@ const router = express.Router();
 const Geoloc = require('../models/Geolocalization');
 const {isAuth} = require('../helpers/auth');
 
-router.get('/localization/previous-routes', isAuth, function(req, res) {
-    res.render('localization/share-loc');
+router.get('/localization/previous-routes', isAuth, async function(req, res) {
+    const localizations = await Geoloc.find({user: req.user.id}).sort({dateH: 'desc'});
+    res.render('localization/all-locs', {localizations});
+});
+
+router.get('/localization/save-loc', isAuth, function(req, res){
+    res.render('localization/share-loc')
 });
 
 router.post('/localization/share-loc', isAuth, async function(req, res) {
@@ -27,13 +32,12 @@ router.post('/localization/share-loc', isAuth, async function(req, res) {
         newLoc.user = req.user.id;
         await newLoc.save();
         req.flash('success_msm', 'Your route has been saved succesfully');
-        res.redirect("/localization");
+        res.redirect("/localization/previous-routes");
     }
 });
 
-router.get('/localization', isAuth, async function(req, res) {
-    const localizations = await Geoloc.find({user: req.user.id}).sort({dateH: 'desc'});
-    res.render("localization/all-locs", {localizations});
+router.get('/localization', isAuth, function(req, res) {
+    res.render("localization/navigation-options");
 });
 
 router.get('/localization/watch-details/:id', isAuth, async function(req, res){

@@ -1,6 +1,52 @@
-<div class="row">
-    {{#each localizations}}
-        <div class="col-md-3">
+<div class="row-md-4 mx-auto">
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 15px;
+                font-size:140%; 
+                text-align:center; 
+                color:black;
+            }
+        </style>
+    </head>
+    {{#if localizations}}
+        <table style="width:100%" >
+            <tr>
+                <th>Latitude</th>
+                <th>Longitude</th> 
+                <th>Hour</th>
+                <th>Date</th>
+            </tr>
+            {{#each localizations}}            
+                <tr>
+                    <td>{{latitude}}</td>
+                    <td>{{length}}</td> 
+                    <td>{{hour}}</td>
+                    <td>{{dateH}}</td>
+                </tr>
+            
+            {{/each}}
+        </table>
+    {{else}}
+        <div class="col-md-3 mx-auto">
+            <div class="card mx-auto">
+                <div class="card-body">
+                    <div class="card-body">
+                        <h1>Hello {{user.user}}</h1>
+                    </div>
+                    <p class="lead">Not localizations yet</p>
+                    <a href="/localization" class="btn btn-info btn-block">Go back</a>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+    
+    <!--{{#each localizations}}
+        <!--<div class="col-md-3">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title d-flex justify-content-between align-items-center">
@@ -10,7 +56,9 @@
                     <a href="/localization/watch-details/{{_id}}" class="btn btn-info btn-block btn-sm">Watch details</a>
                 </div>
             </div>
+            
         </div>
+               
     {{else}}
         <div class="card mx-auto">
             <div class="card-body">
@@ -21,5 +69,5 @@
                 <a href="/localization/previous-routes" class="btn btn-info btn-block">Go back</a>
             </div>
         </div>
-    {{/each}}
+    {{/each}}-->
 </div>

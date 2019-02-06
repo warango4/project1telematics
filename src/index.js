@@ -5,6 +5,7 @@ const override = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
+const gps = require('gps-tracking');
 
 const application = express();
 require('./database');

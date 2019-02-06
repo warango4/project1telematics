@@ -1,0 +1,29 @@
+<div class="jumbotron mt-4">
+    <h1 class="display-4">Hey there {{user.user}}!</h1>
+    <p class="lead">Here you can save your routes and visualize later where you have been</p>
+    <style>
+        #map{
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    <body>
+        <div id="map">
+        <h1>My google map</h1>        
+        </div>
+        <script>
+            function initMap() {
+                var options = {
+                    zoom: 8, 
+                    center: {lat: 6.25184, lng: -75.56359}
+                }
+
+                var map = new google.maps.Map(document.getElementById('map'), options);
+                
+            }
+        </script>
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXmruLh9FmYczf0aJSR3TNmtyw295NjfE&callback=initMap">
+        </script>
+    </body>
+</div>
