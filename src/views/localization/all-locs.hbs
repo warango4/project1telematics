@@ -16,17 +16,17 @@
     {{#if localizations}}
         <table style="width:100%" >
             <tr>
-                <th>Latitude</th>
-                <th>Longitude</th> 
-                <th>Hour</th>
+                <th>Route name</th>
                 <th>Date</th>
+                <th>Watch details</th>
             </tr>
             {{#each localizations}}            
                 <tr>
-                    <td>{{latitude}}</td>
-                    <td>{{length}}</td> 
-                    <td>{{hour}}</td>
-                    <td>{{dateH}}</td>
+                    <td>{{name}}</td>
+                    <td>{{date}}</td>
+                    <td>
+                        <a href="/localization/watch-details/{{_id}}" class="btn btn-primary btn-block">Details</a>
+                    </td>
                 </tr>
             
             {{/each}}
@@ -38,8 +38,8 @@
                     <div class="card-body">
                         <h1>Hello {{user.user}}</h1>
                     </div>
-                    <p class="lead">Not localizations yet</p>
-                    <a href="/localization" class="btn btn-info btn-block">Go back</a>
+                    <p class="lead">No locations yet</p>
+                    <a href="/localization" class="btn btn-primary btn-block">Go back</a>
                 </div>
             </div>
         </div>

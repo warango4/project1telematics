@@ -1,27 +1,122 @@
-<div class="col-md-4 mx-auto">
-    <div class="card">
-        <div class="card-header">
-            <h3>Watch detail of your previous localizations</h3>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<style>
+    #map{
+        height: 400px;
+        width: 100%;
+    }
+</style>
+<div class="form-group">
+    <body>
+        <input type="hidden" id="pointsArr" value="{{pointsArray}}"/>
+        <div id="map">
+        <h1>My google map</h1>        
         </div>
-        <div class="card-body">
-            <form action="/localization/watch-loc-details/{{consult._id}}" method="POST">
-                <div class="form-group">
-                    <input type="text" name="latitude" class="form-control" value="{{consult.latitude}}" readonly>
-                </div>
-                <div class="form-group">
-                    <input type="text" name="length" class="form-control" value="{{consult.length}}" readonly>
-                </div>
-                <div class="form-group">
-                    <input type="time" name="hour" class="form-control" value="{{consult.hour}}" readonly>
-                </div>
-                <div class="form-group">
-                    <input type="date" name="date" class="form-control" value="{{consult.date}}" readonly>
-                </div>
-                <div class="form-group">
+        <script>
+            var map, infoWindow, points;
+            
+            function initMap() {
+                points = JSON.parse(document.getElementById('pointsArr').value);
+                var options = {
+                    zoom: 8, 
+                    center: {lat: 6.25184, lng: -75.56359}
+                }
+                map = new google.maps.Map(document.getElementById('map'), options);
+                infoWindow = new google.maps.InfoWindow;
+    
+                var directionsService = new google.maps.DirectionsService;
+                var directionsRenderer = new google.maps.DirectionsRenderer;
+                directionsRenderer.setMap(map);
+                displayRoute(directionsService, directionsRenderer);
+            }
+    
+            function displayRoute(directionsService, directionsRenderer){
+                var pointsOrEnd = [];
+                var max;
+                if(points.length - 2 > 8){
+                    max = Math.floor((points.length - 2) / 8);
+                } else {
+                    max = 1;
+                }
+    
+                for(var i = 0; i < points.length; i = i + max){
+                    pointsOrEnd.push({
+                        location: new google.maps.LatLng(points[i].latitude, points[i].longitude), 
+                        stopover: false
+                    });
+                }
+    
+                directionsService.route({
+                    origin: new google.maps.LatLng(points[0].latitude, points[0].longitude),
+                    destination: new google.maps.LatLng(points[points.length-1].latitude, points[points.length-1].longitude),
+                    waypoints: pointsOrEnd,
+                    optimizeWaypoints: true,
+                    travelMode: 'WALKING'
+                }, function(response, status) {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            }
+        </script>
+    
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPv5GGKBYApPBO-zFagIB1uKUHfnOWDAo&callback=initMap">
+        </script>
+    
+    </body>
+</div>
+
+
+<div class="row-md-4 mx-auto">
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 15px;
+                font-size:140%; 
+                text-align:center; 
+                color:black;
+            }
+        </style>
+    </head>
+    {{#if points}}
+        <div class="form-group">
+            <table style="width:100%" >
+                <tr>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Date</th>
+                </tr>
+                {{#each points}}            
+                    <tr>
+                        <td>{{latitude}}</td>
+                        <td>{{longitude}}</td>
+                        <td>{{dateH}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+        <div class="col-md-4 mx-auto">
+            <div class="form-group">
+                <a href="/localization/previous-routes" class="btn btn-primary btn-block">Go back</a>
+            </div>
+        </div>        
+    {{else}}
+        <div class="col-md-3 mx-auto">
+            <div class="card mx-auto">
+                <div class="card-body">
+                    <div class="card-body">
+                    <h1>You saved a route with no points</h1>
+                    </div>
+                    <p class="lead">Not localizations yet</p>
                     <a href="/localization" class="btn btn-info btn-block">Go back</a>
                 </div>
-                
-            </form>
+            </div>
         </div>
-    </div>
+    {{/if}}
 </div>

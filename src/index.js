@@ -5,11 +5,14 @@ const override = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
-const gps = require('gps-tracking');
 
 const application = express();
 require('./database');
 require('./config/passport');
+
+const server = require('http').Server(application);
+const io = require('socket.io').listen(server);
+module.exports = io;
 
 application.set('port', process.env.PORT || 3000);
 application.set('views', path.join(__dirname, 'views'));
@@ -49,7 +52,7 @@ application.use(require('./routes/geoloc'));
 
 application.use(express.static(path.join(__dirname, 'public')));
 
-application.listen(application.get('port'), () => {
+server.listen(application.get('port'), () => {
     console.log('Server on port', application.get('port'))
 });
 

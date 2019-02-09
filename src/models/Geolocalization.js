@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
-var dateHelper = new Date();
-var time = dateHelper.getUTCHours();
-
 const localizationSchema = new Schema({
+    idRoute: {type: String},
     user: {type: String},
     latitude: {type: String, required: true}, 
-    length: {type: String, required: true},
-    hour: {type: String, required: true},
-    date: {type: Date, required: true},
+    longitude: {type: String, required: true},
     dateH: {type: Date, default: Date.now}
 });
 
