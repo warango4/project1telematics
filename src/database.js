@@ -1,6 +1,6 @@
 const mongo = require('mongoose');
 
-mongo.connect('mongodb://localhost/geoloc-db-app', {
+mongo.connect('mongodb://mongo-server:27017/geoloc-db-app', {
     useCreateIndex: true, 
     useNewUrlParser: true,
     useFindAndModify: false
