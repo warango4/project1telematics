@@ -17,6 +17,10 @@
         <script>
             var map, infoWindow, watchID, routeId, socket;
             
+            /**
+            * Initializes the map for its visualization
+            * Its center point is in Medellin
+            */
             function initMap() {
                 var options = {
                     zoom: 8, 
@@ -27,6 +31,14 @@
                 infoWindow = new google.maps.InfoWindow;
             }
 
+            /**
+            * By a socket, it starts tracking the current position
+            * and sends it to the database
+            * Each localization has a position and returns latitude and longitude
+            * Also, a marker is created in each point
+            *
+            * If no location, returns error
+            */
             function startRecording(){
                 var socket = io();
                 document.getElementById('btnStartRec').disabled = true;
@@ -53,12 +65,19 @@
                 }
             }
 
+            /**
+            * Stops sending points with current route ID
+            */
             async function stopRecording(){
                 navigator.geolocation.clearWatch(watchID);
                 document.getElementById('btnStartRec').disabled = false;
                 document.submitForm.submit();
             }
 
+            /**
+            * If errors while tracking the position, an info window is displayed
+            * with the error
+            */
             function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                 infoWindow.setPosition(pos);
                 infoWindow.setContent(browserHasGeolocation ?

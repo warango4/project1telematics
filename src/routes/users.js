@@ -8,6 +8,10 @@ router.get('/users/signin', function(req, res) {
     res.render('users/signin');
 });
 
+/**
+ * If an user is attempting to login to the app, 
+ * validates the user exists and has a correct password
+ */
 router.post('/users/signin', passport.authenticate('local', {
     successRedirect: '/localization',
     failureRedirect: '/users/signin',
@@ -18,6 +22,15 @@ router.get('/users/signup', function(req, res) {
     res.render('users/signup');
 });
 
+/** 
+ * Allows an user to create a new user for the app
+ * Takes the request body to create a new model schema for user
+ * and validates all fields
+ * 
+ * @param {String} req - Request where all fields for creating an user are saved
+ * @param {String} res - Response to the request
+ * 
+*/
 router.post('/users/signup', async function(req, res){
     const {user, email, pass, passConf} = req.body;
     const errors = [];
@@ -56,6 +69,9 @@ router.post('/users/signup', async function(req, res){
     }
 });
 
+/**
+ * Finishes session
+ */
 router.get('/users/logout',function(req, res){
     req.logout();
     req.flash('success_msm', 'You have successfully logged out');

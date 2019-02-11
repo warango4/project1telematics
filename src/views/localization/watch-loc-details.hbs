@@ -13,7 +13,12 @@
         </div>
         <script>
             var map, infoWindow, points;
-            
+
+            /** 
+            * Initiates the map in the current window
+            * Creates directions service to track the route according
+            * to the given points and directions render to draw them
+            */            
             function initMap() {
                 points = JSON.parse(document.getElementById('pointsArr').value);
                 var options = {
@@ -28,11 +33,18 @@
                 directionsRenderer.setMap(map);
                 displayRoute(directionsService, directionsRenderer);
             }
-    
+
+            /**
+            * @param {DirectionsService} directionsService - Tracks the whole route 
+            * according to the given points
+            * @param {DirectionsRender} directionsRender - Draws the route on the map
+            *
+            * Displays the saved route on the map
+            */
             function displayRoute(directionsService, directionsRenderer){
-                var pointsOrEnd = [];
+                var pointsOrEnd = []; //Points from origin to end
                 var max;
-                if(points.length - 2 > 8){
+                if(points.length - 2 > 8){ //8 is the max waypoints permited by Google Maps for non premium
                     max = Math.floor((points.length - 2) / 8);
                 } else {
                     max = 1;
@@ -68,7 +80,7 @@
     </body>
 </div>
 
-
+<!--Bring the details of each point in the route-->
 <div class="row-md-4 mx-auto">
     <head>
         <style>
