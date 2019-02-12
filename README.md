@@ -57,6 +57,7 @@ and set the port you want it to run through.
 ## Acknowledgments
 
 Most of this app is based on Fazt tutorial. Find the link to the tutorial (in Spanish) below
+
 [Fazt tutorial](https://youtu.be/-bI0diefasA) 
 
 Google maps and Google API Key were also used to draw maps and track position.
