@@ -47,7 +47,7 @@ If you want to test it without docker and nginx, you can type in your terminal:
 ```
 and then visit http://localhost:3000
 
-** It's important for you to know the app is going to run through port 3000. **
+It's important for you to know the app is going to run through port 3000.
 If you want to change this, go to src/index.js line 20
 ```
  application.set('port', process.env.PORT || 3000)
