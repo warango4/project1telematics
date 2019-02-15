@@ -21,7 +21,7 @@ how to install those tools.
 
 ### Node modules
 There are plenty node modules used for the app to run.
-There is a directory with all of them, but if you want (and need) to install them, you can do it by using:
+If you want (and need) to install them, you can do it by using:
 ```
  $ npm i express express-handlebars express-session method-override mongoose passport passport-local \
  bcryptjs connect-flash nodemon socket.io --save
